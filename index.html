@@ -1,361 +1,643 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>滚动切换页面</title>
+    <title>东北师范大学信息科学与技术学院</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
         }
         
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
-        
-        .section {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 3rem;
-            font-weight: bold;
-            color: white;
-            transition: transform 0.8s ease;
-            position: fixed;  /* 添加固定定位 */
-            width: 100%;     /* 设置宽度100% */
-            top: 0;         /* 固定到顶部 */
-            left: 0;        /* 固定到左侧 */
-        }
-        
-        #section1 {
-            background-color: #e74c3c;
-            z-index: 4;     /* 设置层级 */
-        }
-        
-        #section2 {
-            background-color: #3498db;
-            z-index: 3;     /* 设置层级 */
-        }
-        
-        #section3 {
-            background-color: #2ecc71;
-            z-index: 2;     /* 设置层级 */
-        }
-        
-        #section4 {
-            background-color: #9b59b6;
-            z-index: 1;     /* 设置层级 */
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
         }
         
         .container {
-            height: 100vh;
-            overflow: hidden;
-        }
-        
-        /* 轮播图样式 */
-        .carousel {
-            width: 100%;
-            height: 100%;
-            position: relative;
+            max-width: 1200px;
             margin: 0 auto;
-            overflow: hidden;
+            padding: 0 15px;
         }
         
-        .carousel img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, #ffffff, #9ac9ff);
+            color: rgb(255, 255, 255);
+            padding: 25px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            border-radius: 20px;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo h1 {
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .nav-top {
+            font-size: 15px;
+        }
+        
+        .nav-top a {
+            color: rgba(0, 57, 122, 0.9);
+            text-decoration: none;
+            margin-left: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-top a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .nav-main {
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 5px;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .nav-main a {
+            color: rgb(0, 49, 95);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        
+        .nav-main a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 横幅样式 */
+        .banner {
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
+                        url('./img/nenu666.png');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 25px 0;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .banner h2 {
+            color: white;
+            font-size: 42px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            max-width: 80%;
+        }
+        
+        /* 主要内容区域 */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section h3 {
+            color: #0056b3;
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #0056b3;
+        }
+        
+        .news-list {
+            font-size: 13px;
+            list-style: none;
+        }
+        
+        .news-list li {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eaeaea;
+        }
+        
+        .news-list li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .news-list a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: block;
+        }
+        
+        .news-list a:hover {
+            color: #0056b3;
+        }
+        
+        .news-list .date {
+            color: #666;
+            font-size: 14px;
+            margin-right: 8px;
+        }
+        
+        /* 图片区域样式 */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .image-placeholder {
+            height: 200px;
+            background-color: #e9ecef;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #6c757d;
+            font-size: 16px;
+            background-size: cover;
+            background-position: center;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .image-placeholder:hover {
+            transform: scale(1.03);
+        }
+        
+        .image-placeholder::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            opacity: 0;
-            transition: opacity 0.8s ease;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,86,179,0.1);
         }
         
-        .carousel img.active {
-            opacity: 1;
+        /* 侧边栏样式 */
+        .sidebar .section {
+            margin-bottom: 30px;
         }
-
-        /* 轮播控制按钮样式 */
-        .carousel-control {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 10px;
+        }
+        
+        .nav-links a {
+            display: block;
+            padding: 12px;
+            background-color: #f1f7ff;
+            color: #0056b3;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: #0056b3;
             color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 10; /* 确保按钮在图片上层 */
-        }
-
-        .prev-btn {
-            left: 10px;
-        }
-
-        .next-btn {
-            right: 10px;
         }
         
-        /* 导航样式 */
-        .nav-container {
-            position: absolute;
-            bottom: 20px; /* 距离底部的距离 */
-            right: 20px;  /* 距离右侧的距离 */
-            /* left: 0; (移除或注释掉) */
-            /* right: 0; (移除或注释掉) */
+        /* 页脚样式 */
+        footer {
+            background: #002b5e;
+            color: rgba(255,255,255,0.8);
+            padding: 0 0 0;
+            margin-top: 30px;
+        }
+        
+        .footer-content {
             display: flex;
-            /* justify-content: center; (移除或注释掉，因为不再需要水平居中) */
-            gap: 10px; 
+            justify-content: space-between;
+            flex-wrap: wrap;
         }
         
-        .nav-item {
-            font-size: 24px;
+        .footer-info {
+            flex: 2;
+            min-width: 300px;
+            margin-right: 30px;
+        }
+        
+        .footer-info h4 {
             color: white;
-            cursor: pointer;
-            text-align: center;
-            padding: 10px 5px; /* 调整padding，为右侧横线预留初始空间 */
-            position: relative;
-            transition: padding-right 0.3s ease, font-weight 0.3s ease; /* 添加font-weight的过渡效果 */
-            font-weight: normal; /* 默认文字粗细为正常 */
+            font-size: 18px;
+            margin-bottom: 20px;
         }
         
-        .nav-item::after {
-            content: '';
-            position: absolute;
-            bottom: 50%; /* 将横线垂直居中于文字 */
-            transform: translateY(50%); /* 确保垂直居中 */
-            right: -5px; /* 初始时横线在文字右侧外部一点，避免初始显示 */
-            width: 0;
-            height: 1px; /* 将横线高度调整为1px，使其更细 */
-            background-color: rgb(255, 255, 255);
-            transition: width 0.3s ease, right 0.3s ease; /* 添加right的过渡效果 */
+        .contact-info {
+            list-style: none;
+            margin-top: 15px;
         }
         
-        .nav-item.active {
-            padding-right: 45px; /* 横线出现时，增加右边距，为横线腾出空间，40px是横线宽度，5px是额外间距 */
-            font-weight: bold; /* 激活的文字加粗 */
+        .contact-info li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
         }
-
-        .nav-item.active::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 20px;
-            height: 20px;
-            background-color: rgba(224, 194, 22, 0.5);
+        
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            background-color: rgba(255,255,255,0.1);
+            margin-right: 10px;
             border-radius: 50%;
-            z-index: 2;
-        }
-
-        .nav-item.active::after {
-            width: 40px; /* 设置横线的固定宽度 */
-            right: 5px; /* 横线出现时，调整到文字右侧紧邻的位置 */
-            z-index: 1; /* 确保横线在圆形下方 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
         }
         
-        #text2 {
-            width: 1px;
-            height: 35px;  /* 增加高度改善比例 */
-            background: white;
-            margin: 0 10px;
-            transform: scaleX(0.5);
-            align-self: center;  /* 添加垂直居中 */
-            margin-top: -2px;  /* 微调垂直位置 */
-        }
-
-        /* 移除原字体相关样式 */
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: 50%; /* 将横线垂直居中于文字 */
-            transform: translateY(50%); /* 确保垂直居中 */
-            right: -5px; /* 初始时横线在文字右侧外部一点，避免初始显示 */
-            width: 0;
-            height: 1px; /* 将横线高度调整为1px，使其更细 */
-            background-color: rgb(255, 255, 255);
-            transition: width 0.3s ease, right 0.3s ease; /* 添加right的过渡效果 */
-        }
-        
-        .nav-item.active {
-            padding-right: 45px; /* 横线出现时，增加右边距，为横线腾出空间，40px是横线宽度，5px是额外间距 */
-            font-weight: bold; /* 激活的文字加粗 */
-        }
-
-        .nav-item.active::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 20px;
-            height: 20px;
-            background-color: rgba(224, 194, 22, 0.5);
-            border-radius: 50%;
-            z-index: 2;
-        }
-
-        .nav-item.active::after {
-            width: 40px; /* 设置横线的固定宽度 */
-            right: 5px; /* 横线出现时，调整到文字右侧紧邻的位置 */
-            z-index: 1; /* 确保横线在圆形下方 */
-        }
-        #text{
-            font-size: 13px;  /* 再次缩小文字 */
-            line-height: 35px; /* 增加行高使竖线更长 */
-            font-weight: normal;  /* 更细的字体粗细 */
+        .copyright {
             text-align: center;
-            margin-right: 15px; /* 调整右侧间距 */
-            align-items: center; /* 与导航指示器垂直对齐 */
-            display: flex; /* 启用flex布局对齐 */
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
         }
-      
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header-top {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-top {
+                margin-top: 15px;
+            }
+            
+            .banner h2 {
+                font-size: 32px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .banner {
+                height: 300px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="section" id="section1">
-            <div class="carousel">
-                <img src="img/1.jpg" class="active" alt="为">
-                <img src="img/2.jpg" alt="人">
-                <img src="img/3.jpg" alt="师">
-                <img src="img/4.jpg" alt="表">
-                <button class="carousel-control prev-btn">&#10094;</button> 
-                <button class="carousel-control next-btn">&#10095;</button>
+    <!-- 头部导航 -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <h1><img src="./img/nenu.png" alt=""></h1>
+                </div>
+                <div class="nav-top">
+                    <a href="#">师大首页</a>
+                    <a href="#">联系我们</a>
+                    <a href="#">本站导航</a>
+                    <a href="#">旧版回顾</a>
+                    <a href="#">English</a>
+                </div>
             </div>
-            <div class="nav-container">
-                <div class="nav-item active"><img src="img/banner_i1_on.png" data-default="img/banner_i1.png" data-active="img/banner_i1_on.png" alt=""></div>
-                <div class="nav-item"><img src="img/banner_i2.png" data-default="img/banner_i2.png" data-active="img/banner_i2_on.png" alt=""></div>
-                <div class="nav-item"><img src="img/banner_i3.png" data-default="img/banner_i3.png" data-active="img/banner_i3_on.png" alt=""></div>
-                <div class="nav-item"><img src="img/banner_i4.png" data-default="img/banner_i4.png" data-active="img/banner_i4_on.png" alt=""></div>
-                <div id="text2"></div>
-                <div id="text">更多>></div>
+            <nav class="nav-main">
+                <a href="#">首页</a>
+                <a href="#">机构设置</a>
+                <a href="#">党群工作</a>
+                <a href="#">教职员工</a>
+                <a href="#">本科生教育</a>
+                <a href="#">研究生教育</a>
+                <a href="#">科学研究</a>
+                <a href="#">国际合作</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 主内容区 -->
+    <div class="container">
+        <!-- 横幅 -->
+        <div class="banner">
+            <h2>创新引领未来 · 科技塑造明天</h2>
+        </div>
+        
+        
+        <!-- 主内容网格 -->
+        <div class="main-content">
+            <div class="left-column">
+
+                
+                <div class="news-grid">
+                                    <!-- 学院新闻 -->
+                <div class="section">
+                    <h3>学院新闻</h3>
+                    <ul class="news-list">
+                        <li><a href="./new.html"><span class="date">[05-28]</span>教师第一、二党支部开展联动活动 ——"迎...</a></li>
+                        <li><a href=""><span class="date">[05-14]</span>我院在第十届"中国高校计算机大赛-团体...</a></li>
+                        <li><a href=""><span class="date">[05-07]</span>2023级硕士生赵德奎同学论文被人工智...</a></li>
+                        <li><a href=""><span class="date">[04-30]</span>智能信息处理团队四篇论文入选人工智...</a></li>
+                        <li><a href=""><span class="date">[03-27]</span>2022级硕士生任蒙恩在国际期刊...</a></li>
+                        <li><a href=""><span class="date">[03-09]</span>我院成功举办"巧手传非遗，珐彩绽芳华...</a></li>
+                        <li><a href=""><span class="date">[03-03]</span>直聘教授+顶尖基础教育资源|东北师范...</a></li>
+                        <li><a href=""><span class="date">[01-10]</span>我院成功举办"春风有'信'、'科'映...</a></li>
+                        <li><a href=""><span class="date">[01-08]</span>我院校友返校招聘 共促毕业生高质量...</a></li>
+                        <li><a href=""><span class="date">[12-26]</span>我院举办2024年度颁奖典礼暨"蛇舞新春...</a></li>
+                        <li><a href=""><span class="date">[12-25]</span>AI for Science团队在生物信息学领域顶...</a></li>
+                    </ul>
+                </div>
+                    <!-- 学院通知 -->
+                    <div class="section">
+                        <h3>学院通知</h3>
+                        <ul class="news-list">
+                            <li><a href="#">06/12 学位论文开题公告</a></li>
+                            <li><a href="#">06/12 关于公布信息科学与技术学院2025年博士...</a></li>
+                            <li><a href="#">06/04 信息科学与技术学院2026年博士生导师任...</a></li>
+                            <li><a href="#">05/21 信息科学与技术学院2025年度本科教学及...</a></li>
+                            <li><a href="#">05/21 信息科学与技术学院2025年全国优秀大学...</a></li>
+                            <li><a href="#">05/19 东北师范大学计算机科学与技术学科博士...</a></li>
+                            <li><a href="#">05/19 东北师范大学教育技术学专业学位论...</a></li>
+                            <li><a href="#">05/15 关于我院研究生新生党员转入组织关系的通知</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 就业信息 -->
+                    <div class="section">
+                        <h3>就业信息</h3>
+                        <ul class="news-list">
+                            <li><a href="#">03/21 中国海洋大学档案馆专业技术人员招聘启事</a></li>
+                            <li><a href="#">03/21 中国联通广东省分公司2024届春招</a></li>
+                            <li><a href="#">03/07 长春市面向2024年应届毕业生开展"强师..."</a></li>
+                            <li><a href="#">03/07 北森云计算机有限公司毕业生招聘公告</a></li>
+                            <li><a href="#">12/11 西安市人社局2024届毕业生选聘公告</a></li>
+                            <li><a href="#">12/11 明阳集团2024全球校园招聘</a></li>
+                        </ul>
+                    </div>
+                    <div class="section" style="height: auto;">
+                        <h3>科研动态</h3>
+                        <ul class="news-list">
+                            <li><a href="#">04/21 2025年信息科学学术论坛（七）——从 De...</a></li>
+                            <li><a href="#">04/11 2025年信息科学学术论坛（六）——《理...</a></li>
+                            <li><a href="#">04/08 2025年信息科学学术论坛（五）——《6G ...</a></li>
+                            <li><a href="#">03/14 2025年信息科学学术论坛（四）——《量...</a></li>
+                            <li><a href="#">03/14 2025年信息科学学术论坛（三）——《带...</a></li>
+                            <li><a href="#">03/07 2025年信息科学学术论坛（二）——《On ...</a></li>
+                            <li><a href="#">02/25 2025年信息科学学术论坛（一）——《Mac...</a></li>
+                            <li><a href="#">04/07 我院邀请上海财经大学陆品燕教授做题为...</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                
+                
+            </div>
+            
+            <!-- 侧边栏 -->
+            <div class="sidebar">
+                <div class="carousel-container" style="margin-top: 20%;">
+                    <div class="carousel-wrapper">
+                      <div class="carousel-slide active">
+                        <div class="image-placeholder" style="background-image: url(./img/no1.png)"></div>
+                      </div>
+                      <div class="carousel-slide">
+                        <div class="image-placeholder" style="background-image: url(./img/no2.jpg)"></div>
+                      </div>
+                      <div class="carousel-slide">
+                        <div class="image-placeholder" style="background-image: url(./img/no3.png)"></div>
+                      </div>
+                      <div class="carousel-slide">
+                        <div class="image-placeholder" style="background-image: url(./img/no4.png)"></div>
+                      </div>
+                      <div class="carousel-slide">
+                        <div class="image-placeholder" style="background-image: url(./img/no5.png)"></div>
+                      </div>
+                    </div>
+                    <!-- 轮播控制按钮 -->
+                    <button class="carousel-prev">&lt;</button>
+                    <button class="carousel-next">&gt;</button>
+                    <!-- 轮播指示器 -->
+                    <div class="carousel-indicators">
+                      <span class="indicator active" data-index="0"></span>
+                      <span class="indicator" data-index="1"></span>
+                      <span class="indicator" data-index="2"></span>
+                      <span class="indicator" data-index="3"></span>
+                      <span class="indicator" data-index="4"></span>
+                    </div>
+                  </div>
+                <!-- 快速导航 -->
+                <div class="section" style="margin-top: 20%;">
+                    <h3>快速导航</h3>
+                    <ul class="nav-links">
+                        <li><a href="#">实验资源</a></li>
+                        <li><a href="#">招生就业</a></li>
+                        <li><a href="#">服务指南</a></li>
+                        <li><a href="#">院内专题</a></li>
+                        <li><a href="#">证书培训</a></li>
+                        <li><a href="#">学生天地</a></li>
+                        <li><a href="#">精品课程</a></li>
+                        <li><a href="#">规章制度</a></li>
+                        <li><a href="#">校友之窗</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="section" id="section2">第二部分</div>
-        <div class="section" id="section3">第三部分</div>
-        <div class="section" id="section4">第四部分</div>
     </div>
     
-    
-    <script>
-        const sections = document.querySelectorAll('.section');
-        let currentIndex = 0;
-        let isScrolling = false;
-        let scrollTimeout;
-        
-        // 轮播图相关元素
-        const carouselImages = document.querySelectorAll('.carousel img');
-        const navItems = document.querySelectorAll('.nav-item');
-        const prevButton = document.querySelector('.prev-btn');
-        const nextButton = document.querySelector('.next-btn');
-        let currentImageIndex = 0;
-        
-        // 初始化页面位置
-        updateSections();
-        
-        // 监听鼠标滚轮事件
-        let lastScrollTime = 0;
-        const scrollDelay = 2500; // 设置滚动延迟为1秒
-
-        window.addEventListener('wheel', function(event) {
-            event.preventDefault();
-            
-            const currentTime = new Date().getTime();
-            
-            // 检查是否可以进行下一次滚动
-            if (currentTime - lastScrollTime < scrollDelay) {
-                return; // 如果时间间隔太短，直接返回
-            }
-            
-            // 向下滚动
-            if (event.deltaY > 0) {
-                if (currentIndex < sections.length - 1) {
-                    currentIndex++;
-                } 
-                // else if (currentIndex === 0) {
-                //     // 在第一部分内，切换轮播图
-                //     nextImage();
-                // }
-            } 
-            // 向上滚动
-            else if (event.deltaY < 0) {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                } 
-                // else if (currentIndex === 0) {
-                //     // 在第一部分内，切换轮播图
-                //     prevImage();
-                // }
-            }
-            
-            updateSections();
-            lastScrollTime = currentTime; // 更新最后滚动时间
-            
-        }, { passive: false });
-        
-        // 为导航项添加点击事件
-        navItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                showImage(index);
-            });
-        });
-
-        // 为轮播控制按钮添加点击事件
-        prevButton.addEventListener('click', prevImage);
-        nextButton.addEventListener('click', nextImage);
-        
-        // 显示指定索引的图片
-        let autoPlayInterval;  // 声明定时器变量
-
-        function showImage(index) {
-            carouselImages[currentImageIndex].classList.remove('active');
-            
-            // 修改所有导航项的图片源为默认状态
-            navItems.forEach(item => {
-                const img = item.querySelector('img');
-                img.src = img.dataset.default;
-            });
-            
-            // 更新当前激活项的图片源
-            const activeImg = navItems[index].querySelector('img');
-            activeImg.src = activeImg.dataset.active;
-            
-            navItems[currentImageIndex].classList.remove('active');
-            currentImageIndex = index;
-            carouselImages[currentImageIndex].classList.add('active');
-            navItems[currentImageIndex].classList.add('active');
-            
-            // 重置自动轮播计时器
-            clearInterval(autoPlayInterval);  // 清除原有定时器
-            autoPlayInterval = setInterval(nextImage, 5000);  // 重新创建定时器
-        }
-        
-        // 显示下一张图片
-        function nextImage() {
-            let nextIndex = (currentImageIndex + 1) % carouselImages.length;
-            showImage(nextIndex);
-        }
-        
-        // 显示上一张图片
-        function prevImage() {
-            let prevIndex = (currentImageIndex - 1 + carouselImages.length) % carouselImages.length;
-            showImage(prevIndex);
-        }
-  
-        function updateSections() {
-            sections.forEach((section, index) => {
-                section.style.transform = `translateY(${(index - currentIndex) * 100}vh)`;
-            });
-        }
-        
-        // 自动轮播（修改原setInterval调用）
-        autoPlayInterval = setInterval(nextImage, 5000);  // 使用变量存储定时器
-    </script>
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <img style="float: right; margin-top: 1%; margin-right: 20%;" src="./img/1111.png" alt="">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <ul class="contact-info" style="margin-left: 20%;">
+                        <li><span class="contact-icon">@</span>地址: 吉林省长春市净月大街2555号&emsp;&emsp;<span class="contact-icon">#</span>邮编: 130117</li>
+                        <li><span class="contact-icon">T</span>电话: 0431-84536338&emsp;&emsp;&emsp;&emsp;<span class="contact-icon">F</span>传真: 0431-84536331</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>版权所有© 东北师范大学信息科学与技术学院 | 网站制作与维护: 计算机科学系</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
+
+<style>
+.carousel-container {
+  position: relative;
+  /* max-width: 500px; 可根据需要调整 */
+  width: 100%;
+  margin: 0 auto; /* 水平居中 */
+  margin-right: 0%;
+  overflow: hidden;
+}
+
+.carousel-wrapper {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+  min-width: 100%;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 300px; /* 固定高度，可根据需要调整 */
+  background-size: cover;
+  background-position: center;
+}
+
+/* 控制按钮样式 */
+.carousel-prev, .carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.carousel-prev {
+  left: 10px;
+}
+
+.carousel-next {
+  right: 10px;
+}
+
+/* 指示器样式 */
+.carousel-indicators {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.5);
+  cursor: pointer;
+}
+
+.indicator.active {
+  background-color: white;
+}
+</style>
+
+<script>
+const carouselWrapper = document.querySelector('.carousel-wrapper');
+const slides = document.querySelectorAll('.carousel-slide');
+const prevButton = document.querySelector('.carousel-prev');
+const nextButton = document.querySelector('.carousel-next');
+const indicators = document.querySelectorAll('.indicator');
+let currentIndex = 0;
+const slideCount = slides.length;
+
+// 更新轮播显示
+function updateCarousel() {
+  carouselWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+  
+  // 更新指示器状态
+  indicators.forEach((indicator, index) => {
+    indicator.classList.toggle('active', index === currentIndex);
+  });
+}
+
+// 下一张
+function nextSlide() {
+  currentIndex = (currentIndex + 1) % slideCount;
+  updateCarousel();
+}
+
+// 上一张
+function prevSlide() {
+  currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+  updateCarousel();
+}
+
+// 自动轮播
+let slideInterval = setInterval(nextSlide, 3000);
+
+// 事件监听
+prevButton.addEventListener('click', () => {
+  clearInterval(slideInterval);
+  prevSlide();
+  slideInterval = setInterval(nextSlide, 3000);
+});
+
+nextButton.addEventListener('click', () => {
+  clearInterval(slideInterval);
+  nextSlide();
+  slideInterval = setInterval(nextSlide, 3000);
+});
+
+indicators.forEach(indicator => {
+  indicator.addEventListener('click', (e) => {
+    clearInterval(slideInterval);
+    currentIndex = parseInt(e.target.dataset.index);
+    updateCarousel();
+    slideInterval = setInterval(nextSlide, 3000);
+  });
+});
+</script>

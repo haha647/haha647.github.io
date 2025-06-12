@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>东北师范大学信息科学与技术学院</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+            }
+            
+            body {
+                background-color: #f8f9fa;
+                color: #333;
+                line-height: 1.6;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 15px;
+            }
+            
+            /* 头部样式 */
+            header {
+                background: linear-gradient(135deg, #ffffff, #9ac9ff);
+                color: rgb(255, 255, 255);
+                padding: 25px 0;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+                border-radius: 20px;
+            }
+            
+            .header-top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            
+            .logo h1 {
+                font-size: 32px;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
+            
+            .nav-top {
+                font-size: 15px;
+            }
+            
+            .nav-top a {
+                color: rgba(0, 57, 122, 0.9);
+                text-decoration: none;
+                margin-left: 20px;
+                transition: all 0.3s ease;
+            }
+            
+            .nav-top a:hover {
+                color: white;
+                text-decoration: underline;
+            }
+            
+            .nav-main {
+                background-color: rgba(255,255,255,0.3);
+                border-radius: 5px;
+                padding: 12px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .nav-main a {
+                color: rgb(0, 49, 95);
+                text-decoration: none;
+                margin: 0 15px;
+                font-weight: 500;
+            }
+            
+            .nav-main a:hover {
+                text-decoration: underline;
+            }
+            
+            /* 横幅样式 */
+            .banner {
+                background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
+                            url('./img/nenu666.png');
+                background-size: cover;
+                background-position: center;
+                height: 400px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 25px 0;
+                border-radius: 8px;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            }
+            
+            .banner h2 {
+                color: white;
+                font-size: 42px;
+                text-align: center;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+                max-width: 80%;
+            }
+            
+            
+            .news-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                margin-bottom: 30px;
+            }
+            
+            .section {
+                background: white;
+                border-radius: 8px;
+                padding: 25px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+                transition: transform 0.3s ease;
+            }
+            
+            .section:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+            
+            .section h3 {
+                color: #0056b3;
+                font-size: 22px;
+                margin-bottom: 20px;
+                padding-bottom: 12px;
+                border-bottom: 2px solid #0056b3;
+            }
+            
+            .news-list {
+                font-size: 13px;
+                list-style: none;
+            }
+            
+            .news-list li {
+                margin-bottom: 15px;
+                padding-bottom: 15px;
+                border-bottom: 1px dashed #eaeaea;
+            }
+            
+            .news-list li:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+            
+            .news-list a {
+                color: #333;
+                text-decoration: none;
+                transition: color 0.3s;
+                display: block;
+            }
+            
+            .news-list a:hover {
+                color: #0056b3;
+            }
+            
+            .news-list .date {
+                color: #666;
+                font-size: 14px;
+                margin-right: 8px;
+            }
+            
+            /* 图片区域样式 */
+            .image-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+                margin: 30px 0;
+            }
+            
+            .image-placeholder {
+                height: 200px;
+                background-color: #e9ecef;
+                border-radius: 6px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #6c757d;
+                font-size: 16px;
+                background-size: cover;
+                background-position: center;
+                transition: all 0.3s ease;
+                overflow: hidden;
+                position: relative;
+            }
+            
+            .image-placeholder:hover {
+                transform: scale(1.03);
+            }
+            
+            .image-placeholder::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,86,179,0.1);
+            }
+            
+            /* 侧边栏样式 */
+            .sidebar .section {
+                margin-bottom: 30px;
+            }
+            
+            .nav-links {
+                list-style: none;
+            }
+            
+            .nav-links li {
+                margin-bottom: 10px;
+            }
+            
+            .nav-links a {
+                display: block;
+                padding: 12px;
+                background-color: #f1f7ff;
+                color: #0056b3;
+                text-decoration: none;
+                border-radius: 4px;
+                transition: all 0.3s;
+            }
+            
+            .nav-links a:hover {
+                background-color: #0056b3;
+                color: white;
+            }
+            
+            /* 页脚样式 */
+            footer {
+                background: #002b5e;
+                color: rgba(255,255,255,0.8);
+                padding: 0 0 0;
+                margin-top: 30px;
+            }
+            
+            .footer-content {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            
+            .footer-info {
+                flex: 2;
+                min-width: 300px;
+                margin-right: 30px;
+            }
+            
+            .footer-info h4 {
+                color: white;
+                font-size: 18px;
+                margin-bottom: 20px;
+            }
+            
+            .contact-info {
+                list-style: none;
+                margin-top: 15px;
+            }
+            
+            .contact-info li {
+                margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+            }
+            
+            .contact-icon {
+                width: 24px;
+                height: 24px;
+                background-color: rgba(255,255,255,0.1);
+                margin-right: 10px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 12px;
+            }
+            
+            .copyright {
+                text-align: center;
+                padding-top: 10px;
+                margin-top: 10px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+                font-size: 14px;
+            }
+            
+            @media (max-width: 768px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+                
+                .news-grid {
+                    grid-template-columns: 1fr;
+                }
+                
+                .image-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                
+                .header-top {
+                    flex-direction: column;
+                    text-align: center;
+                }
+                
+                .nav-top {
+                    margin-top: 15px;
+                }
+                
+                .banner h2 {
+                    font-size: 32px;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .image-grid {
+                    grid-template-columns: 1fr;
+                }
+                
+                .banner {
+                    height: 300px;
+                }
+            }
+            .main {
+            width: max(70%, 1405px);
+            width: 70%;
+            border-left: 1px solid #a1a1a1;
+            border-right: 1px solid #a1a1a1;
+            border-bottom: 1px solid #a1a1a1;
+            margin-left: 15%;
+        }
+            .main-title {
+            width: 100%;
+            height: 75px;
+            /* line-height: 50px; */
+            font-size: 25px;
+            text-align: center;
+            color: rgb(0, 0, 0);
+            border-bottom: 1px dashed #a1a1a1;
+        }
+        .main-content {
+            font-size: 18px;
+            color: rgb(121, 121, 121);
+            padding: 20px;
+        }
+        .main-foot{
+            background-color: rgb(231, 231, 231);
+            width: 100%;
+            height: 25px;
+        }
+        </style>
+    </head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <h1><img src="./img/nenu.png" alt=""></h1>
+                </div>
+                <div class="nav-top">
+                    <a href="#">师大首页</a>
+                    <a href="#">联系我们</a>
+                    <a href="#">本站导航</a>
+                    <a href="#">旧版回顾</a>
+                    <a href="#">English</a>
+                </div>
+            </div>
+            <nav class="nav-main">
+                <a href="#">首页</a>
+                <a href="#">机构设置</a>
+                <a href="#">党群工作</a>
+                <a href="#">教职员工</a>
+                <a href="#">本科生教育</a>
+                <a href="#">研究生教育</a>
+                <a href="#">科学研究</a>
+                <a href="#">国际合作</a>
+            </nav>
+        </div>
+    </header>
+    <p style="font-size: 10px; margin-left: 15%;">当前位置: <a href="./index.html">首页</a> >> <a href="">学院新闻</a> >> 正文</p>
+    <div class="main">
+        <div class="main-title">
+            教师第一、二党支部开展联动活动 ——“迎评应会知识学习”周某日活动
+            <p style="font-size: 15px; color: #a1a1a1;">作者： 时间：2025-05-28 点击数：228</p>
+        </div>
+        <div class="main-content">
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以新一轮本科教育教学审核评估为契机，我院教师第一、二党支部于近日联合举办了“迎评应会知识学习”周党日活动。</p>
+            <img style="width: 40%; margin-left: 30%;" src="./img/news.png" alt="">
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;活动首先进行的是两支部支委领学分享环节。王姣、万川、张哲、侯鲲、齐妙五名支委在会前自学基础上，分别领学“东北师范大学质保理念、质量文化、教风、学风”“新一轮本科教育教学审核评估的目标意义、基本原则、主要内容及特点”“新一轮本科教育教学审核评估的重点知识、关键要点和热点名词”“东北师范大学本科教育教学评估工作方案与本科教学质量年实施方案”“新一轮本科教育教学审核评估中学院、教师和学生如何做好准备工作”等内容；随后，两支部教师围绕立德树人根本任务，结合学习内容开展了讨论，党委书记郑燕林进行了本科教学审核评估相关知识的补充和深入讲解。教师第一党支部王姣主持活动。</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本次支部联动活动的开展，充分体现了教师一二党支部坚持cdfa鏈结、问题驱动，着力把党建融入业务工作、融入党员需求、融入群众关切，推进党建与业务深度融合的使命感和自觉性，发挥了党支部在推动业务工作、服务中心工作中的战斗堡垒作用。</p>
+            <p style="margin-right: 0; text-align: right;">初审：王姣</p>
+            <p style="margin-right: 0; text-align: right;">复审：滕继波</p>
+            <p style="margin-right: 0; text-align: right;">终审：郑燕林</p>
+        </div>
+        <div class="main-foot">
+            下一篇： <a href="">我院在第十届"中国高校计算机大赛-团体程序设计天梯赛"中荣获全国一等奖</a>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <img style="float: right; margin-top: 1%; margin-right: 20%;" src="./img/1111.png" alt="">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <ul class="contact-info" style="margin-left: 20%;">
+                        <li><span class="contact-icon">@</span>地址: 吉林省长春市净月大街2555号&emsp;&emsp;<span class="contact-icon">#</span>邮编: 130117</li>
+                        <li><span class="contact-icon">T</span>电话: 0431-84536338&emsp;&emsp;&emsp;&emsp;<span class="contact-icon">F</span>传真: 0431-84536331</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>版权所有© 东北师范大学信息科学与技术学院 | 网站制作与维护: 计算机科学系</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
