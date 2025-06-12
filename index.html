@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滚动切换页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            transition: transform 0.8s ease;
+            position: fixed;  /* 添加固定定位 */
+            width: 100%;     /* 设置宽度100% */
+            top: 0;         /* 固定到顶部 */
+            left: 0;        /* 固定到左侧 */
+        }
+        
+        #section1 {
+            background-color: #e74c3c;
+            z-index: 4;     /* 设置层级 */
+        }
+        
+        #section2 {
+            background-color: #3498db;
+            z-index: 3;     /* 设置层级 */
+        }
+        
+        #section3 {
+            background-color: #2ecc71;
+            z-index: 2;     /* 设置层级 */
+        }
+        
+        #section4 {
+            background-color: #9b59b6;
+            z-index: 1;     /* 设置层级 */
+        }
+        
+        .container {
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 轮播图样式 */
+        .carousel {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .carousel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        
+        .carousel img.active {
+            opacity: 1;
+        }
+
+        /* 轮播控制按钮样式 */
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10; /* 确保按钮在图片上层 */
+        }
+
+        .prev-btn {
+            left: 10px;
+        }
+
+        .next-btn {
+            right: 10px;
+        }
+        
+        /* 导航样式 */
+        .nav-container {
+            position: absolute;
+            bottom: 20px; /* 距离底部的距离 */
+            right: 20px;  /* 距离右侧的距离 */
+            /* left: 0; (移除或注释掉) */
+            /* right: 0; (移除或注释掉) */
+            display: flex;
+            /* justify-content: center; (移除或注释掉，因为不再需要水平居中) */
+            gap: 10px; 
+        }
+        
+        .nav-item {
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+            padding: 10px 5px; /* 调整padding，为右侧横线预留初始空间 */
+            position: relative;
+            transition: padding-right 0.3s ease, font-weight 0.3s ease; /* 添加font-weight的过渡效果 */
+            font-weight: normal; /* 默认文字粗细为正常 */
+        }
+        
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 50%; /* 将横线垂直居中于文字 */
+            transform: translateY(50%); /* 确保垂直居中 */
+            right: -5px; /* 初始时横线在文字右侧外部一点，避免初始显示 */
+            width: 0;
+            height: 1px; /* 将横线高度调整为1px，使其更细 */
+            background-color: rgb(255, 255, 255);
+            transition: width 0.3s ease, right 0.3s ease; /* 添加right的过渡效果 */
+        }
+        
+        .nav-item.active {
+            padding-right: 45px; /* 横线出现时，增加右边距，为横线腾出空间，40px是横线宽度，5px是额外间距 */
+            font-weight: bold; /* 激活的文字加粗 */
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(224, 194, 22, 0.5);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .nav-item.active::after {
+            width: 40px; /* 设置横线的固定宽度 */
+            right: 5px; /* 横线出现时，调整到文字右侧紧邻的位置 */
+            z-index: 1; /* 确保横线在圆形下方 */
+        }
+        
+        #text2 {
+            width: 1px;
+            height: 35px;  /* 增加高度改善比例 */
+            background: white;
+            margin: 0 10px;
+            transform: scaleX(0.5);
+            align-self: center;  /* 添加垂直居中 */
+            margin-top: -2px;  /* 微调垂直位置 */
+        }
+
+        /* 移除原字体相关样式 */
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 50%; /* 将横线垂直居中于文字 */
+            transform: translateY(50%); /* 确保垂直居中 */
+            right: -5px; /* 初始时横线在文字右侧外部一点，避免初始显示 */
+            width: 0;
+            height: 1px; /* 将横线高度调整为1px，使其更细 */
+            background-color: rgb(255, 255, 255);
+            transition: width 0.3s ease, right 0.3s ease; /* 添加right的过渡效果 */
+        }
+        
+        .nav-item.active {
+            padding-right: 45px; /* 横线出现时，增加右边距，为横线腾出空间，40px是横线宽度，5px是额外间距 */
+            font-weight: bold; /* 激活的文字加粗 */
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(224, 194, 22, 0.5);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .nav-item.active::after {
+            width: 40px; /* 设置横线的固定宽度 */
+            right: 5px; /* 横线出现时，调整到文字右侧紧邻的位置 */
+            z-index: 1; /* 确保横线在圆形下方 */
+        }
+        #text{
+            font-size: 13px;  /* 再次缩小文字 */
+            line-height: 35px; /* 增加行高使竖线更长 */
+            font-weight: normal;  /* 更细的字体粗细 */
+            text-align: center;
+            margin-right: 15px; /* 调整右侧间距 */
+            align-items: center; /* 与导航指示器垂直对齐 */
+            display: flex; /* 启用flex布局对齐 */
+        }
+      
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section" id="section1">
+            <div class="carousel">
+                <img src="img/1.jpg" class="active" alt="为">
+                <img src="img/2.jpg" alt="人">
+                <img src="img/3.jpg" alt="师">
+                <img src="img/4.jpg" alt="表">
+                <button class="carousel-control prev-btn">&#10094;</button> 
+                <button class="carousel-control next-btn">&#10095;</button>
+            </div>
+            <div class="nav-container">
+                <div class="nav-item active"><img src="img/banner_i1_on.png" data-default="img/banner_i1.png" data-active="img/banner_i1_on.png" alt=""></div>
+                <div class="nav-item"><img src="img/banner_i2.png" data-default="img/banner_i2.png" data-active="img/banner_i2_on.png" alt=""></div>
+                <div class="nav-item"><img src="img/banner_i3.png" data-default="img/banner_i3.png" data-active="img/banner_i3_on.png" alt=""></div>
+                <div class="nav-item"><img src="img/banner_i4.png" data-default="img/banner_i4.png" data-active="img/banner_i4_on.png" alt=""></div>
+                <div id="text2"></div>
+                <div id="text">更多>></div>
+            </div>
+        </div>
+        <div class="section" id="section2">第二部分</div>
+        <div class="section" id="section3">第三部分</div>
+        <div class="section" id="section4">第四部分</div>
+    </div>
+    
+    
+    <script>
+        const sections = document.querySelectorAll('.section');
+        let currentIndex = 0;
+        let isScrolling = false;
+        let scrollTimeout;
+        
+        // 轮播图相关元素
+        const carouselImages = document.querySelectorAll('.carousel img');
+        const navItems = document.querySelectorAll('.nav-item');
+        const prevButton = document.querySelector('.prev-btn');
+        const nextButton = document.querySelector('.next-btn');
+        let currentImageIndex = 0;
+        
+        // 初始化页面位置
+        updateSections();
+        
+        // 监听鼠标滚轮事件
+        let lastScrollTime = 0;
+        const scrollDelay = 2500; // 设置滚动延迟为1秒
+
+        window.addEventListener('wheel', function(event) {
+            event.preventDefault();
+            
+            const currentTime = new Date().getTime();
+            
+            // 检查是否可以进行下一次滚动
+            if (currentTime - lastScrollTime < scrollDelay) {
+                return; // 如果时间间隔太短，直接返回
+            }
+            
+            // 向下滚动
+            if (event.deltaY > 0) {
+                if (currentIndex < sections.length - 1) {
+                    currentIndex++;
+                } 
+                // else if (currentIndex === 0) {
+                //     // 在第一部分内，切换轮播图
+                //     nextImage();
+                // }
+            } 
+            // 向上滚动
+            else if (event.deltaY < 0) {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                } 
+                // else if (currentIndex === 0) {
+                //     // 在第一部分内，切换轮播图
+                //     prevImage();
+                // }
+            }
+            
+            updateSections();
+            lastScrollTime = currentTime; // 更新最后滚动时间
+            
+        }, { passive: false });
+        
+        // 为导航项添加点击事件
+        navItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                showImage(index);
+            });
+        });
+
+        // 为轮播控制按钮添加点击事件
+        prevButton.addEventListener('click', prevImage);
+        nextButton.addEventListener('click', nextImage);
+        
+        // 显示指定索引的图片
+        let autoPlayInterval;  // 声明定时器变量
+
+        function showImage(index) {
+            carouselImages[currentImageIndex].classList.remove('active');
+            
+            // 修改所有导航项的图片源为默认状态
+            navItems.forEach(item => {
+                const img = item.querySelector('img');
+                img.src = img.dataset.default;
+            });
+            
+            // 更新当前激活项的图片源
+            const activeImg = navItems[index].querySelector('img');
+            activeImg.src = activeImg.dataset.active;
+            
+            navItems[currentImageIndex].classList.remove('active');
+            currentImageIndex = index;
+            carouselImages[currentImageIndex].classList.add('active');
+            navItems[currentImageIndex].classList.add('active');
+            
+            // 重置自动轮播计时器
+            clearInterval(autoPlayInterval);  // 清除原有定时器
+            autoPlayInterval = setInterval(nextImage, 5000);  // 重新创建定时器
+        }
+        
+        // 显示下一张图片
+        function nextImage() {
+            let nextIndex = (currentImageIndex + 1) % carouselImages.length;
+            showImage(nextIndex);
+        }
+        
+        // 显示上一张图片
+        function prevImage() {
+            let prevIndex = (currentImageIndex - 1 + carouselImages.length) % carouselImages.length;
+            showImage(prevIndex);
+        }
+  
+        function updateSections() {
+            sections.forEach((section, index) => {
+                section.style.transform = `translateY(${(index - currentIndex) * 100}vh)`;
+            });
+        }
+        
+        // 自动轮播（修改原setInterval调用）
+        autoPlayInterval = setInterval(nextImage, 5000);  // 使用变量存储定时器
+    </script>
+</body>
+</html>
